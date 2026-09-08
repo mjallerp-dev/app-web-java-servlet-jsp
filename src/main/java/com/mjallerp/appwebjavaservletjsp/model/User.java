@@ -1,6 +1,6 @@
 package com.mjallerp.appwebjavaservletjsp.model;
 
-public class UserModel {
+public class User {
     private String id;
     private String name;
     private String password;
