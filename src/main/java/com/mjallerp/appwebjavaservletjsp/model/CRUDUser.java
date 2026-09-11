@@ -10,13 +10,34 @@ public class CRUDUser {
     private User user;
     private DatabaseConnection database;
 
+    public CRUDUser() throws Exception {
+        user = new User();
+        database = new DatabaseConnection();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public DatabaseConnection getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(DatabaseConnection database) {
+        this.database = database;
+    }
+
     public void agregarUsuario() throws Exception {
         if (user.getId() == null || user.getId().isEmpty()) {
             throw new Exception("El ID del usuario es necesario");
         }
 
         String sqlInsert = "INSERT INTO users "
-                + "(id, name, email, password) "
+                + "(id, name, password, role) "
                 + "VALUES (?, ?, ?, ?)";
 
         try {
@@ -43,16 +64,16 @@ public class CRUDUser {
         }
 
         String sqlUpdate = "UPDATE users "
-                + "SET password=?, name=?, role=? "
+                + "SET name=?, password=?, role=? "
                 + "WHERE id =?";
 
         try {
             PreparedStatement sentenceSQL = database.crearSentencia(sqlUpdate);
 
-            sentenceSQL.setString(1, user.getId());
-            sentenceSQL.setString(2, user.getName());
-            sentenceSQL.setString(3, user.getPassword());
-            sentenceSQL.setString(4, user.getRole());
+            sentenceSQL.setString(1, user.getName());
+            sentenceSQL.setString(2, user.getPassword());
+            sentenceSQL.setString(3, user.getRole());
+            sentenceSQL.setString(4, user.getId());
 
             database.actualizar(sentenceSQL);
         }
@@ -140,7 +161,7 @@ public class CRUDUser {
             sentenceSQL.setString(1, id);
 
             ResultSet resultado = database.consultar(sentenceSQL);
-            if (resultado.next()) {
+            if (resultado.next() == true) {
                 user = new User();
                 user.setId(resultado.getString("id"));
                 user.setName(resultado.getString("name"));
@@ -171,18 +192,22 @@ public class CRUDUser {
 
             ResultSet resultado = database.consultar(sentenceSQL);
             resultado.last();
-            User[] listado = new User[resultado.getRow()];
+            int totalFilas = resultado.getRow();
+            if (totalFilas <= 0) {
+                throw new Exception("Error al listar los usuarios "
+                    + "<br/>Explicación: ");
+            }
+            User[] listado = new User[totalFilas];
             resultado.beforeFirst();
+            int indice = 0;
             while (resultado.next()) {
                 user = new User();
                 user.setId(resultado.getString("id"));
                 user.setName(resultado.getString("name"));
                 user.setPassword(resultado.getString("password"));
                 user.setRole(resultado.getString("role"));
-                listado[resultado.getRow()] = user;
-            } if(listado.length <= 0) {
-                throw new Exception("Error al listar los usuarios "
-                    + "<br/>Explicación: ");
+                listado[indice] = user;
+                indice++;
             }
             return listado;
         } catch (Exception error) {
@@ -193,4 +218,6 @@ public class CRUDUser {
             }
         }
     }
+
+
 }
