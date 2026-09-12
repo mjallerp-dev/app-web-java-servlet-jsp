@@ -5,7 +5,7 @@
         request.getRequestDispatcher("/web/users/login.jsp").forward(request, response);
     }
     String mensaje = request.getParameter("mensaje");
-    User alguien = (User) request.getSession().getAttribute("user.buscar");
+    User user = (User) request.getSession().getAttribute("user.buscar");
 %>
 <html>
     <head>
@@ -35,29 +35,29 @@
                     <tr>
                         <th style="text-align: right">Password:</th>
                         <td style="text-align: left">
-                            <%= (alguien != null) ? "********" : "" %>
+                            <%= (user != null) ? "********" : "" %>
                         </td>
                     </tr>
                     <tr>
                         <th style="text-align: right">Nombre:</th>
                         <td style="text-align: left">
-                            <%= (alguien != null) ? alguien.getName() : "" %>
+                            <%= (user != null) ? user.getName() : "" %>
                         </td>
                     </tr>
                     <tr>
                         <th style="text-align: right">Rol:</th>
                         <td style="text-align: left">
-                            <%= (alguien != null) ? alguien.getRole() : "" %>
+                            <%= (user != null) ? user.getRole() : "" %>
                         </td>
                     </tr>
                 </table>
             </form>
             <hr/>
             <%
-                if (alguien != null) {
+                if (user != null) {
             %>
             <form action="../../user?accion=eliminar" method="post">
-                <input type="hidden" name="id" value="<%= alguien.getId() %>">
+                <input type="hidden" name="id" value="<%= user.getId() %>">
                 <table>
                     <tr>
                         <td>
