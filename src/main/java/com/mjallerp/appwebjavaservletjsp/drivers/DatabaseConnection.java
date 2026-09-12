@@ -18,8 +18,9 @@ public class DatabaseConnection {
     private PreparedStatement sentence;
     private ResultSet resultRows;
 
-    public DatabaseConnection() {
+    public DatabaseConnection() throws Exception{
         loadProperties();
+        this.conectar();
     }
 
     private void loadProperties() {
@@ -90,7 +91,8 @@ public class DatabaseConnection {
 
     public PreparedStatement crearSentencia(String sql) throws Exception{
         try {
-            PreparedStatement sentence = connection.prepareStatement(sql);
+            PreparedStatement sentence = connection.prepareStatement(
+                    sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             return sentence;
         }
         catch (SQLException ex) {
