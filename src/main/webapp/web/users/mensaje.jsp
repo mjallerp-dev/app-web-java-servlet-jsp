@@ -1,16 +1,17 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: pc
-  Date: 23/08/2026
-  Time: 8:12 p. m.
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Mensaje del Sistema</title>
+    </head>
+    <body>
+        <center>
+            <h1>
+                <%=request.getParameter("mensaje")%>
+            </h1>
+            <hr/>
+            <a href="login.jsp"><<< Volver :::</a>
+        </center>
+    </body>
 </html>
