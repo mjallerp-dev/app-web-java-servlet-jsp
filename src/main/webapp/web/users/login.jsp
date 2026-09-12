@@ -16,7 +16,7 @@
     <%
         }
     %>
-    <form action="../../user?accion=login" method="post">
+    <form action="<%= request.getContextPath() %>/user?accion=login" method="post">
         <table border="0">
             <tr>
                 <td>ID:</td>

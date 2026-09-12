@@ -52,7 +52,8 @@
             }
         %>
         <hr>
-        <a href="../../index.jsp"><<< VOLVER AL MENU</a>
+        <input type="button" value="Volver al Menu"
+               onclick="window.location.href='<%= request.getContextPath() %>/index.jsp'">
     </center>
     </body>
 </html>

@@ -12,40 +12,31 @@
     </head>
     <body>
         <center>
+            <h2>Menu de la Aplicación</h2>
+            <hr/>
             <table border="0">
                 <tbody>
                     <tr>
-
-                        <th><h1><a href="web/users/agregar.jsp">Agregar</a></h1></th>
-
+                        <th><a href="web/users/agregar.jsp">Agregar</a></th>
                     </tr>
                     <tr>
-
-                        <td><h1><a href="web/users/buscar.jsp">Buscar</a></h1></td>
-
+                        <td><a href="web/users/buscar.jsp">Buscar</a></td>
                     </tr>
                     <tr>
-
-                        <td><h1><a href="web/users/modificar.jsp">Modificar</a></h1></td>
-
+                        <td><a href="web/users/modificar.jsp">Modificar</a></td>
                     </tr>
                     <tr>
-
-                        <td><h1><a href="web/users/eliminar.jsp">Eliminar</a></h1></td>
-
+                        <td><a href="web/users/eliminar.jsp">Eliminar</a></td>
                     </tr>
                     <tr>
-
-                        <td><h1><a href="user?accion=listartodo">Listar</a></h1></td>
-
+                        <td><a href="user?accion=listartodo">Listar</a></td>
                     </tr>
                     <tr>
-
-                        <td><h1><a href="user?accion=salir">Salir</a></h1></td>
-
+                        <td><a href="user?accion=salir">Salir</a></td>
                     </tr>
                 </tbody>
             </table>
+            <hr/>
         </center>
     </body>
 </html>

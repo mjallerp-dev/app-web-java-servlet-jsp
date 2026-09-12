@@ -11,7 +11,8 @@
                 <%=request.getParameter("mensaje")%>
             </h1>
             <hr/>
-            <a href="login.jsp"><<< Volver :::</a>
+            <input type="button" value="Volver al Menu"
+                   onclick="window.location.href='<%= request.getContextPath() %>/index.jsp'">
         </center>
     </body>
 </html>

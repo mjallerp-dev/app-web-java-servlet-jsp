@@ -30,6 +30,10 @@
                         <th>
                             <input type="reset" value="Limpiar"/>
                         </th>
+                        <th>
+                            <input type="button" value="Volver al Menu"
+                                   onclick="window.location.href='<%= request.getContextPath() %>/index.jsp'"/>
+                        </th>
                     </tr>
                 </table>
             </form>

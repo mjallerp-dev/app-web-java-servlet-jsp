@@ -43,6 +43,10 @@
                     <tr>
                         <th><input type="submit" value="Entrar"></th>
                         <th><input type="reset" name="Restablecer"></th>
+                        <th>
+                            <input type="button" value="Volver al Menu"
+                                   onclick="window.location.href='<%= request.getContextPath() %>/index.jsp'">
+                        </th>
                     </tr>
                 </table>
             </form>
