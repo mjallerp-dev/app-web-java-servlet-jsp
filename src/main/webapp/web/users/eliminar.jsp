@@ -1,16 +1,78 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: pc
-  Date: 23/08/2026
-  Time: 8:10 p. m.
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page import="com.mjallerp.appwebjavaservletjsp.model.User"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    if (request.getSession().getAttribute("user.login") == null) {
+        request.getRequestDispatcher("/web/users/login.jsp").forward(request, response);
+    }
+    String mensaje = request.getParameter("mensaje");
+    User alguien = (User) request.getSession().getAttribute("user.buscar");
+%>
 <html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Eliminar Usuario</title>
+    </head>
+    <body>
+        <center>
+            <h1>Eliminar Usuario</h1>
+            <hr/>
+            <form action="../../user?accion=buscar&redir=eliminar" method="post">
+                <table>
+                    <tr>
+                        <th style="text-align: right">ID:</th>
+                        <td>
+                            <input type="text" name="id"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <input type="submit" value="Buscar"/>
+                        </th>
+                        <th>
+                            <input type="reset" value="Limpiar"/>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="text-align: right">Password:</th>
+                        <td style="text-align: left">
+                            <%= (alguien != null) ? "********" : "" %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: right">Nombre:</th>
+                        <td style="text-align: left">
+                            <%= (alguien != null) ? alguien.getName() : "" %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: right">Rol:</th>
+                        <td style="text-align: left">
+                            <%= (alguien != null) ? alguien.getRole() : "" %>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <hr/>
+            <%
+                if (alguien != null) {
+            %>
+            <form action="../../user?accion=eliminar" method="post">
+                <input type="hidden" name="id" value="<%= alguien.getId() %>">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="submit" value="Eliminar">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <%
+                }
+            %>
+            <p style="color:#FF0000;">
+                <%= (mensaje != null && !mensaje.isEmpty()) ? mensaje : "" %>
+            </p>
+            <% request.getSession().setAttribute("user.buscar", null); %>
+        </center>
+    </body>
 </html>
