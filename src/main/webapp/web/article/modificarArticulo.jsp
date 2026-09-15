@@ -73,13 +73,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <th style="text-align: right">IVA:</th>
-                        <td>
-                            <input type="number" step="0.01" name="iva"
-                                   value="<%= (article != null) ? article.getIva() : "" %>"/>
-                        </td>
-                    </tr>
-                    <tr>
                         <th style="text-align: right">Modelo:</th>
                         <td>
                             <input type="text" name="modelo"

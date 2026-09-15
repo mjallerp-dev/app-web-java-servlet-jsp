@@ -41,7 +41,6 @@ public class ServletArticle extends HttpServlet {
                 crudArticle.getArticle().setMarca(request.getParameter("marca"));
                 crudArticle.getArticle().setPrecioVenta(parseDouble(request.getParameter("precioVenta")));
                 crudArticle.getArticle().setPrecioCompra(parseDouble(request.getParameter("precioCompra")));
-                crudArticle.getArticle().setIva(parseDouble(request.getParameter("iva")));
                 crudArticle.getArticle().setModelo(request.getParameter("modelo"));
                 crudArticle.getArticle().setProveedor(request.getParameter("proveedor"));
                 crudArticle.getArticle().setTienda(request.getParameter("tienda"));
@@ -71,7 +70,6 @@ public class ServletArticle extends HttpServlet {
                 crudArticle.getArticle().setMarca(request.getParameter("marca"));
                 crudArticle.getArticle().setPrecioVenta(parseDouble(request.getParameter("precioVenta")));
                 crudArticle.getArticle().setPrecioCompra(parseDouble(request.getParameter("precioCompra")));
-                crudArticle.getArticle().setIva(parseDouble(request.getParameter("iva")));
                 crudArticle.getArticle().setModelo(request.getParameter("modelo"));
                 crudArticle.getArticle().setProveedor(request.getParameter("proveedor"));
                 crudArticle.getArticle().setTienda(request.getParameter("tienda"));

@@ -36,6 +36,8 @@ public class CRUDArticle {
             throw new Exception("El ID del articulo es necesario");
         }
 
+        article.setIva(article.getPrecioVenta() * 0.19);
+
         String sqlInsert = "INSERT INTO article "
                 + "(id, user_id, marca, precio_venta, precio_compra, iva, modelo, proveedor, tienda, cantidad, descripcion, categoria) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -70,6 +72,8 @@ public class CRUDArticle {
         if (article.getId() == null || article.getId().isEmpty()) {
             throw new Exception("El ID del articulo es necesario");
         }
+
+        article.setIva(article.getPrecioVenta() * 0.19);
 
         String sqlUpdate = "UPDATE article "
                 + "SET marca=?, precio_venta=?, precio_compra=?, iva=?, modelo=?, proveedor=?, tienda=?, cantidad=?, descripcion=?, categoria=? "

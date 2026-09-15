@@ -36,10 +36,6 @@
                         <th><input type="number" step="0.01" name="precioCompra"></th>
                     </tr>
                     <tr>
-                        <th style="text-align: right">IVA:</th>
-                        <th><input type="number" step="0.01" name="iva"></th>
-                    </tr>
-                    <tr>
                         <th style="text-align: right">Modelo:</th>
                         <th><input type="text" name="modelo"></th>
                     </tr>
