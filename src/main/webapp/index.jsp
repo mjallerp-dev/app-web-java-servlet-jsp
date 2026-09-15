@@ -14,25 +14,34 @@
         <center>
             <h2>Menu de la Aplicación</h2>
             <hr/>
-            <table border="0">
+            <table border="0" style="border-collapse: separate; border-spacing: 60px 10px;">
                 <tbody>
                     <tr>
-                        <th><a href="web/users/agregar.jsp">Agregar</a></th>
+                        <th>Usuarios</th>
+                        <th>Articulos</th>
+                    </tr>
+                    <tr>
+                        <td><a href="web/users/agregar.jsp">Agregar</a></td>
+                        <td><a href="web/article/agregarArticulo.jsp">Agregar</a></td>
                     </tr>
                     <tr>
                         <td><a href="web/users/buscar.jsp">Buscar</a></td>
+                        <td><a href="web/article/buscarArticulo.jsp">Buscar</a></td>
                     </tr>
                     <tr>
                         <td><a href="web/users/modificar.jsp">Modificar</a></td>
+                        <td><a href="web/article/modificarArticulo.jsp">Modificar</a></td>
                     </tr>
                     <tr>
                         <td><a href="web/users/eliminar.jsp">Eliminar</a></td>
+                        <td><a href="web/article/eliminarArticulo.jsp">Eliminar</a></td>
                     </tr>
                     <tr>
                         <td><a href="user?accion=listartodo">Listar</a></td>
+                        <td><a href="article?accion=listartodo">Listar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="user?accion=salir">Salir</a></td>
+                        <td colspan="2"><a href="user?accion=salir">Salir</a></td>
                     </tr>
                 </tbody>
             </table>
