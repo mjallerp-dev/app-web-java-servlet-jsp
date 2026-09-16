@@ -14,6 +14,7 @@ public class DatabaseConnection {
     protected String user;
     protected String password;
     protected String dbname;
+    protected String sslMode;
     private Connection connection;
     private PreparedStatement sentence;
     private ResultSet resultRows;
@@ -36,7 +37,11 @@ public class DatabaseConnection {
             this.user = props.getProperty("dbUser");
             this.password = props.getProperty("dbPassword");
             this.dbname = props.getProperty("dbName");
+            this.sslMode = props.getProperty("dbSslMode");
             this.url = "jdbc:postgresql://" + host + ":" + port + "/" + dbname;
+            if (sslMode != null && !sslMode.isEmpty()) {
+                this.url = this.url + "?sslmode=" + sslMode;
+            }
         } catch (IOException e) {
             throw new RuntimeException("Failed to load database properties", e);
         }
@@ -129,6 +134,10 @@ public class DatabaseConnection {
         return dbname;
     }
 
+    public String getSslMode() {
+        return sslMode;
+    }
+
     public Connection getConnection() {
         return connection;
     }
@@ -167,6 +176,10 @@ public class DatabaseConnection {
 
     public void setDbname(String dbname) {
         this.dbname = dbname;
+    }
+
+    public void setSslMode(String sslMode) {
+        this.sslMode = sslMode;
     }
 
     public void setConnection(Connection connection) {
