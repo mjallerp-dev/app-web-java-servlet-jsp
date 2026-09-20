@@ -2,8 +2,12 @@
 
 Aplicación web desarrollada en **Java (Jakarta EE)** con **Servlets** y **JSP** que implementa un
 CRUD de **Usuarios** y **Artículos**, con autenticación por sesión y persistencia en
-**PostgreSQL**. Sigue el patrón de arquitectura **MVC** (Modelo - Vista - Controlador) y se
-empaqueta como archivo `WAR` para su despliegue en un contenedor de servlets (Apache Tomcat).
+**Azure Database for PostgreSQL — Servidor Flexible**. Sigue el patrón de arquitectura **MVC**
+(Modelo - Vista - Controlador) y se empaqueta como archivo `WAR` para su despliegue en
+**Azure App Service** (Apache Tomcat).
+
+**Aplicación en producción:**
+[https://app-webjsp-mjaller-frhugrbrg7cuawcu.centralus-01.azurewebsites.net](https://app-webjsp-mjaller-frhugrbrg7cuawcu.centralus-01.azurewebsites.net)
 
 ---
 
@@ -14,15 +18,18 @@ usuarios y artículos desde un menú principal. Cada operación (agregar, buscar
 eliminar y listar) se realiza a través de un Servlet que delega la lógica de acceso a datos en
 clases CRUD y renderiza los resultados en páginas JSP.
 
+La aplicación está desplegada en **Azure App Service** (Linux) y se conecta a un
+**Servidor Flexible de Azure Database for PostgreSQL**.
+
 ## Características
 
 - Inicio y cierre de sesión con control de acceso a las vistas.
 - CRUD completo de **Usuarios** (`agregar`, `buscar`, `modificar`, `eliminar`, `listar`).
 - CRUD completo de **Artículos** (`agregar`, `buscar`, `modificar`, `eliminar`, `listar`).
 - Cálculo automático del **IVA (19%)** a partir del precio de venta.
-- Persistencia en PostgreSQL mediante `PreparedStatement` (consultas parametrizadas).
+- Persistencia en **Azure Database for PostgreSQL (Flexible Server)** mediante `PreparedStatement`.
 - Conexión configurable por archivo `application.properties`.
-- Soporte de **SSL** para conexión a base de datos (`sslmode`).
+- Soporte de **SSL** para la conexión a PostgreSQL (`sslmode=require`).
 - Pruebas unitarias con **JUnit 5** y **Mockito**.
 - Empaquetado `WAR` y despliegue en **Azure App Service**.
 
@@ -33,9 +40,13 @@ clases CRUD y renderiza los resultados en páginas JSP.
 | Componente | Versión / Detalle |
 |---|---|
 | Lenguaje | Java 8 (configurado en `pom.xml`) |
-| Plataforma | Jakarta EE 11 — Servlet 6.1, JSP 4.0 |
-| Servidor | Apache Tomcat 11 (u otro contenedor compatible con Jakarta EE) |
-| Base de datos | PostgreSQL |
+| Plataforma | Jakarta EE — Servlet 6.1, JSP 4.0 |
+| Hosting | **Azure App Service** Linux (`app-webjsp-mjaller`) |
+| Runtime en Azure | Apache Tomcat 10.1 + Java 21 (`TOMCAT\|10.1-java21`) |
+| Región App Service | Central US |
+| Base de datos | **Azure Database for PostgreSQL — Flexible Server 16** |
+| Servidor PostgreSQL | `pg-appwebjsp.postgres.database.azure.com` |
+| Región PostgreSQL | East US 2 |
 | Driver JDBC | PostgreSQL `42.7.13` |
 | Build | Maven (`maven-war-plugin` 3.4.0, `maven-surefire-plugin` 3.5.2) |
 | Testing | JUnit Jupiter 5.13.2, Mockito 5.23.0 |
@@ -102,10 +113,27 @@ app-web-java-servlet-jsp/
 
 ---
 
+## Infraestructura en Azure
+
+| Recurso | Valor |
+|---|---|
+| Grupo de recursos | `rg-desarrolloweb` |
+| App Service | `app-webjsp-mjaller` (Linux, HTTPS) |
+| URL | https://app-webjsp-mjaller-frhugrbrg7cuawcu.centralus-01.azurewebsites.net |
+| Runtime | Tomcat 10.1 — Java 21 |
+| PostgreSQL Flexible Server | `pg-appwebjsp` |
+| Host | `pg-appwebjsp.postgres.database.azure.com` |
+| Motor | PostgreSQL 16 (SKU Burstable `Standard_B1ms`) |
+| Base de datos | `ejercicio_articulo` |
+| Puerto | `5432` |
+| SSL | obligatorio (`sslmode=require`) |
+
+---
+
 ## Base de datos
 
-El proyecto espera una base de datos PostgreSQL (por defecto `ejercicio_articulo`) con las
-siguientes tablas:
+El proyecto usa la base `ejercicio_articulo` en el **Servidor Flexible de Azure Database for PostgreSQL**
+(`pg-appwebjsp.postgres.database.azure.com`) con las siguientes tablas:
 
 ```sql
 CREATE TABLE users (
@@ -136,28 +164,29 @@ CREATE TABLE article (
 ## Configuración
 
 La conexión se lee desde `src/main/resources/application.properties`, que **no se versiona**
-(está incluido en `.gitignore`). Crea el archivo con tus propios valores:
+(está incluido en `.gitignore`). Crea el archivo apuntando al servidor Flexible de Azure:
 
 ```properties
 #Database properties
-dbName = <nombre_base_de_datos>
-dbHost = <host>
-dbUser = <usuario>
+dbName = ejercicio_articulo
+dbHost = pg-appwebjsp.postgres.database.azure.com
+dbUser = db_admin
 dbPort = 5432
 dbPassword = <contraseña>
 dbSslMode = require
 ```
 
-> **Nota:** no subas credenciales reales al repositorio.
+> **Nota:** no subas credenciales reales al repositorio. Azure Database for PostgreSQL exige SSL
+> (`dbSslMode = require`).
 
 ---
 
 ## Requisitos
 
-- JDK 8 o superior (se recomienda **JDK 17+** para Tomcat 11).
+- JDK 8 o superior (en Azure App Service se ejecuta con **Java 21**).
 - Maven (o usar el wrapper `mvnw` incluido).
-- PostgreSQL accesible con las tablas creadas.
-- Apache Tomcat 11 o un contenedor compatible con Jakarta EE 11.
+- Acceso al Servidor Flexible de Azure Database for PostgreSQL con las tablas creadas.
+- Para ejecución local: Apache Tomcat 10.1+ o un contenedor compatible con Jakarta EE.
 
 ---
 
@@ -177,7 +206,7 @@ En Windows:
 
 Esto genera el archivo `target/app-web-java-servlet-jsp-1.0-SNAPSHOT.war`.
 
-### 2. Desplegar en Tomcat
+### 2. Desplegar en Tomcat (local)
 
 Copia el `WAR` en la carpeta `webapps/` de Tomcat y arranca el servidor:
 
@@ -191,16 +220,26 @@ http://localhost:8080/app-web-java-servlet-jsp-1.0-SNAPSHOT/
 ./mvnw test
 ```
 
-> Las pruebas de `DatabaseConnectionTest` y `CRUDUserTest` requieren una base de datos
-> PostgreSQL accesible con la configuración de `application.properties`.
+> Las pruebas de `DatabaseConnectionTest` y `CRUDUserTest` requieren el servidor PostgreSQL
+> de Azure accesible con la configuración de `application.properties`.
 
 ---
 
-## Despliegue
+## Despliegue en Azure
 
-La aplicación está preparada para desplegarse en **Azure App Service** como archivo `WAR`.
-La configuración de destino se encuentra en la carpeta `.azure/` (gestionada por las
-herramientas de Azure para IntelliJ IDEA).
+La aplicación está desplegada en **Azure App Service** como archivo `WAR`.
+
+| Dato | Valor |
+|---|---|
+| Recurso | `app-webjsp-mjaller` |
+| Grupo de recursos | `rg-desarrolloweb` |
+| URL pública | https://app-webjsp-mjaller-frhugrbrg7cuawcu.centralus-01.azurewebsites.net |
+| Base de datos | Azure Database for PostgreSQL Flexible Server `pg-appwebjsp` |
+
+La configuración de destino de IntelliJ IDEA se encuentra en `.azure/` (ignorada por Git).
+
+Para volver a publicar, genera el `WAR` con Maven y desplégalo sobre el App Service
+`app-webjsp-mjaller`.
 
 ---
 
