@@ -17,6 +17,25 @@
     <body>
     <center>
         <h1>Todos los Usuarios Agregados al Sistema</h1>
+        <h4>CONSULTAR USUARIO POR NOMBRE</h4>
+        <form action="<%= request.getContextPath() %>/user" method="get">
+            <input type="hidden" name="accion" value="buscarPorNombre">
+            <label>Nombre:</label>
+            <input type="text" name="name" required>
+            <button type="submit">BUSCAR</button>
+        </form>
+        <h4>CONSULTAR USUARIO POR ROL</h4>
+        <form action="<%= request.getContextPath() %>/user" method="get">
+            <input type="hidden" name="accion" value="buscarPorRole">
+            <label>Rol:</label>
+            <select name="role" required>
+                <option value="Administrador">Administrador</option>
+                <option value="Cliente">Cliente</option>
+            </select>
+            <button type="submit">BUSCAR</button>
+        </form>
+        <h4>LISTA DE USUARIOS</h4>
+        <hr>
         <%
             if (mensaje != null) {
                 out.print(mensaje);

@@ -219,5 +219,84 @@ public class CRUDUser {
         }
     }
 
+    public static User[] buscarPorNombre(String name) throws Exception {
+        if (name == null || name.isEmpty()) {
+            throw new Exception("El nombre del usuario es necesario");
+        }
+        User user; DatabaseConnection database = null;
+
+        String sqlSelect = "SELECT * FROM users WHERE name = ?";
+        try {
+            database = new DatabaseConnection();
+            PreparedStatement sentenceSQL = database.crearSentencia(sqlSelect);
+            sentenceSQL.setString(1, name);
+
+            ResultSet resultado = database.consultar(sentenceSQL);
+            resultado.last();
+            int totalFilas = resultado.getRow();
+            if (totalFilas <= 0) {
+                return new User[0];
+            }
+            User[] listado = new User[totalFilas];
+            resultado.beforeFirst();
+            int indice = 0;
+            while (resultado.next()) {
+                user = new User();
+                user.setId(resultado.getString("id"));
+                user.setName(resultado.getString("name"));
+                user.setPassword(resultado.getString("password"));
+                user.setRole(resultado.getString("role"));
+                listado[indice] = user;
+                indice++;
+            }
+            return listado;
+        } catch (Exception error) {
+            throw new Exception(error.getMessage()+" No hay usuarios con ese nombre.");
+        } finally {
+            if (database != null) {
+                database.desconectar();
+            }
+        }
+    }
+
+    public static User[] buscarPorRole(String role) throws Exception {
+        if (role == null || role.isEmpty()) {
+            throw new Exception("El rol del usuario es necesario");
+        }
+        User user; DatabaseConnection database = null;
+
+        String sqlSelect = "SELECT * FROM users WHERE role = ?";
+        try {
+            database = new DatabaseConnection();
+            PreparedStatement sentenceSQL = database.crearSentencia(sqlSelect);
+            sentenceSQL.setString(1, role);
+
+            ResultSet resultado = database.consultar(sentenceSQL);
+            resultado.last();
+            int totalFilas = resultado.getRow();
+            if (totalFilas <= 0) {
+                return new User[0];
+            }
+            User[] listado = new User[totalFilas];
+            resultado.beforeFirst();
+            int indice = 0;
+            while (resultado.next()) {
+                user = new User();
+                user.setId(resultado.getString("id"));
+                user.setName(resultado.getString("name"));
+                user.setPassword(resultado.getString("password"));
+                user.setRole(resultado.getString("role"));
+                listado[indice] = user;
+                indice++;
+            }
+            return listado;
+        } catch (Exception error) {
+            throw new Exception(error.getMessage()+" No hay usuarios con ese rol.");
+        } finally {
+            if (database != null) {
+                database.desconectar();
+            }
+        }
+    }
 
 }

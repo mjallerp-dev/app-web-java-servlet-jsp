@@ -61,6 +61,16 @@ public class ServletUser extends HttpServlet {
                 request.getSession().setAttribute("user.listar", listado);
                 response.sendRedirect("web/users/listar.jsp");
             }
+            else if (accion.equals("buscarPorNombre")) {
+                User[] listado = CRUDUser.buscarPorNombre(request.getParameter("name"));
+                request.getSession().setAttribute("user.listar", listado);
+                response.sendRedirect("web/users/listar.jsp");
+            }
+            else if (accion.equals("buscarPorRole")) {
+                User[] listado = CRUDUser.buscarPorRole(request.getParameter("role"));
+                request.getSession().setAttribute("user.listar", listado);
+                response.sendRedirect("web/users/listar.jsp");
+            }
             else if (accion.equals("login")){
                 User user = CRUDUser.iniciarsesion(request.getParameter("id"), request.getParameter("password"));
                 request.getSession().setAttribute("user.login", user);
