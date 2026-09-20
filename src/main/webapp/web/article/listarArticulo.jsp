@@ -17,6 +17,22 @@
     <body>
     <center>
         <h1>Todos los Articulos Agregados al Sistema</h1>
+        <h4>CONSULTAR ARTICULO POR MARCA</h4>
+        <form action="<%= request.getContextPath() %>/article" method="get">
+            <input type="hidden" name="accion" value="buscarPorMarca">
+            <label>Marca:</label>
+            <input type="text" name="marca" required>
+            <button type="submit">BUSCAR</button>
+        </form>
+        <h4>CONSULTAR ARTICULO POR CATEGORIA</h4>
+        <form action="<%= request.getContextPath() %>/article" method="get">
+            <input type="hidden" name="accion" value="buscarPorCategoria">
+            <label>Categoria:</label>
+            <input type="text" name="categoria" required>
+            <button type="submit">BUSCAR</button>
+        </form>
+        <h4>LISTA DE ARTICULOS</h4>
+        <hr>
         <%
             if (mensaje != null) {
                 out.print(mensaje);

@@ -216,4 +216,100 @@ public class CRUDArticle {
             }
         }
     }
+
+    public static Article[] buscarPorMarca(String marca) throws Exception {
+        if (marca == null || marca.isEmpty()) {
+            throw new Exception("La marca del articulo es necesaria");
+        }
+        Article article; DatabaseConnection database = null;
+
+        String sqlSelect = "SELECT * FROM article WHERE marca = ?";
+        try {
+            database = new DatabaseConnection();
+            PreparedStatement sentenceSQL = database.crearSentencia(sqlSelect);
+            sentenceSQL.setString(1, marca);
+
+            ResultSet resultado = database.consultar(sentenceSQL);
+            resultado.last();
+            int totalFilas = resultado.getRow();
+            if (totalFilas <= 0) {
+                return new Article[0];
+            }
+            Article[] listado = new Article[totalFilas];
+            resultado.beforeFirst();
+            int indice = 0;
+            while (resultado.next()) {
+                article = new Article();
+                article.setId(resultado.getString("id"));
+                article.setUserId(resultado.getString("user_id"));
+                article.setMarca(resultado.getString("marca"));
+                article.setPrecioVenta(resultado.getDouble("precio_venta"));
+                article.setPrecioCompra(resultado.getDouble("precio_compra"));
+                article.setIva(resultado.getDouble("iva"));
+                article.setModelo(resultado.getString("modelo"));
+                article.setProveedor(resultado.getString("proveedor"));
+                article.setTienda(resultado.getString("tienda"));
+                article.setCantidad(resultado.getInt("cantidad"));
+                article.setDescripcion(resultado.getString("descripcion"));
+                article.setCategoria(resultado.getString("categoria"));
+                listado[indice] = article;
+                indice++;
+            }
+            return listado;
+        } catch (Exception error) {
+            throw new Exception(error.getMessage()+" No hay articulos con esa marca.");
+        } finally {
+            if (database != null) {
+                database.desconectar();
+            }
+        }
+    }
+
+    public static Article[] buscarPorCategoria(String categoria) throws Exception {
+        if (categoria == null || categoria.isEmpty()) {
+            throw new Exception("La categoria del articulo es necesaria");
+        }
+        Article article; DatabaseConnection database = null;
+
+        String sqlSelect = "SELECT * FROM article WHERE categoria = ?";
+        try {
+            database = new DatabaseConnection();
+            PreparedStatement sentenceSQL = database.crearSentencia(sqlSelect);
+            sentenceSQL.setString(1, categoria);
+
+            ResultSet resultado = database.consultar(sentenceSQL);
+            resultado.last();
+            int totalFilas = resultado.getRow();
+            if (totalFilas <= 0) {
+                return new Article[0];
+            }
+            Article[] listado = new Article[totalFilas];
+            resultado.beforeFirst();
+            int indice = 0;
+            while (resultado.next()) {
+                article = new Article();
+                article.setId(resultado.getString("id"));
+                article.setUserId(resultado.getString("user_id"));
+                article.setMarca(resultado.getString("marca"));
+                article.setPrecioVenta(resultado.getDouble("precio_venta"));
+                article.setPrecioCompra(resultado.getDouble("precio_compra"));
+                article.setIva(resultado.getDouble("iva"));
+                article.setModelo(resultado.getString("modelo"));
+                article.setProveedor(resultado.getString("proveedor"));
+                article.setTienda(resultado.getString("tienda"));
+                article.setCantidad(resultado.getInt("cantidad"));
+                article.setDescripcion(resultado.getString("descripcion"));
+                article.setCategoria(resultado.getString("categoria"));
+                listado[indice] = article;
+                indice++;
+            }
+            return listado;
+        } catch (Exception error) {
+            throw new Exception(error.getMessage()+" No hay articulos con esa categoria.");
+        } finally {
+            if (database != null) {
+                database.desconectar();
+            }
+        }
+    }
 }

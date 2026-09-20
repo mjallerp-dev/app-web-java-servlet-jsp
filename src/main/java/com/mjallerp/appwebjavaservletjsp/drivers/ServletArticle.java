@@ -90,6 +90,16 @@ public class ServletArticle extends HttpServlet {
                 request.getSession().setAttribute("article.listar", listado);
                 response.sendRedirect("web/article/listarArticulo.jsp");
             }
+            else if (accion.equals("buscarPorMarca")) {
+                Article[] listado = CRUDArticle.buscarPorMarca(request.getParameter("marca"));
+                request.getSession().setAttribute("article.listar", listado);
+                response.sendRedirect("web/article/listarArticulo.jsp");
+            }
+            else if (accion.equals("buscarPorCategoria")) {
+                Article[] listado = CRUDArticle.buscarPorCategoria(request.getParameter("categoria"));
+                request.getSession().setAttribute("article.listar", listado);
+                response.sendRedirect("web/article/listarArticulo.jsp");
+            }
             else {
                 response.sendRedirect("web/article/mensajeArticulo.jsp?mensaje=La Accion Solicitada no es Correcta");
             }
